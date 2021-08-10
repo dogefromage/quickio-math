@@ -1,8 +1,8 @@
-import vec2 from './vec2'
+import { vec2 } from './vec2'
 
 import { epsilon } from './constants'
 
-export default class mat2 {
+export class mat2 {
 
     constructor(values?: number[]) {
         if (values !== undefined) {

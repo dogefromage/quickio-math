@@ -1,8 +1,8 @@
-import mat4 from './mat4'
+import { mat4 } from './mat4'
 
 import { epsilon } from './constants'
 
-export default class vec4 {
+export class vec4 {
 
     get x(): number {
         return this.values[0]

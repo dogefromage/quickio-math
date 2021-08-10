@@ -1,9 +1,9 @@
-import mat3 from './mat3'
-import quat from './quat'
+import { mat3 } from './mat3'
+import { quat } from './quat'
 
 import { epsilon } from './constants'
 
-export default class vec3 {
+export class vec3 {
 
     get x(): number {
         return this.values[0]
