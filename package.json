@@ -4,6 +4,12 @@
   "description": "A math library for the game engine quickio (forked from matthiasferch/tsm)",
   "author": "Sebastian Saner",
   "module": "dist/index.js",
+  "keywords": [ "math", "vector", "matrix", "game", "algebra", "quaternion" ],
+  "repository": 
+  {
+    "type" : "git",
+    "url" : "https://github.com/dogefromage/quickio-math"
+  },
   "scripts": {
     "test": "mocha -r ts-node/register test/**/*.spec.ts",
     "build": "tsc",
