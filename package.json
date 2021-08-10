@@ -3,7 +3,7 @@
   "version": "1.0.2",
   "description": "A math library for the game engine quickio (forked from matthiasferch/tsm)",
   "author": "Sebastian Saner",
-  "module": "dist/index.js",
+  "module": "lib/index.js",
   "keywords": [
     "math",
     "vector",
