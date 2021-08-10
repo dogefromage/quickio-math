@@ -160,7 +160,7 @@ export default class mat4 {
         return this
     }
 
-    inverse(): mat4 {
+    inverse(): mat4 | undefined {
         const a00 = this.values[0]
         const a01 = this.values[1]
         const a02 = this.values[2]
@@ -194,7 +194,7 @@ export default class mat4 {
         let det = (det00 * det11 - det01 * det10 + det02 * det09 + det03 * det08 - det04 * det07 + det05 * det06)
 
         if (!det) {
-            return null
+            return
         }
 
         det = 1.0 / det
@@ -322,7 +322,7 @@ export default class mat4 {
         ])
     }
 
-    toInverseMat3(): mat3 {
+    toInverseMat3(): mat3 | undefined {
         const a00 = this.values[0]
         const a01 = this.values[1]
         const a02 = this.values[2]
@@ -340,7 +340,7 @@ export default class mat4 {
         let det = a00 * det01 + a01 * det11 + a02 * det21
 
         if (!det) {
-            return null
+            return
         }
 
         det = 1.0 / det
@@ -394,7 +394,7 @@ export default class mat4 {
         return this
     }
 
-    rotate(angle: number, axis: vec3): mat4 {
+    rotate(angle: number, axis: vec3): mat4 | undefined {
         let x = axis.x
         let y = axis.y
         let z = axis.z
@@ -402,7 +402,7 @@ export default class mat4 {
         let length = Math.sqrt(x * x + y * y + z * z)
 
         if (!length) {
-            return null
+            return
         }
 
         if (length !== 1) {

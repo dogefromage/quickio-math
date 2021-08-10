@@ -127,7 +127,7 @@ export default class mat3 {
         return this
     }
 
-    inverse(): mat3 {
+    inverse(): mat3 | undefined {
         const a00 = this.values[0]
         const a01 = this.values[1]
         const a02 = this.values[2]
@@ -145,7 +145,7 @@ export default class mat3 {
         let det = a00 * det01 + a01 * det11 + a02 * det21
 
         if (!det) {
-            return null
+            return
         }
 
         det = 1.0 / det
@@ -371,7 +371,7 @@ export default class mat3 {
         return result
     }
 
-    rotate(angle: number, axis: vec3): mat3 {
+    rotate(angle: number, axis: vec3): mat3 | undefined {
         let x = axis.x
         let y = axis.y
         let z = axis.z
@@ -379,7 +379,7 @@ export default class mat3 {
         let length = Math.sqrt(x * x + y * y + z * z)
 
         if (!length) {
-            return null
+            return
         }
 
         if (length !== 1) {
