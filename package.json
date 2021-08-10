@@ -1,6 +1,6 @@
 {
   "name": "quickio-math",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A math library for the game engine quickio (forked from matthiasferch/tsm)",
   "author": "Sebastian Saner",
   "module": "lib/index.js",
