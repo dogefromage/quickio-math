@@ -32,6 +32,6 @@
   },
   "dependencies": {},
   "files": [
-    "dist/**/*"
+    "lib/**/*"
   ]
 }
