@@ -8,3 +8,6 @@ $ npm run build
 
 ### Compile in watch mode
 $ npm run dev
+
+### Run tests
+$ npm run test
