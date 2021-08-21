@@ -1,10 +1,10 @@
-import { mat3 } from './mat3'
-import { mat4 } from './mat4'
-import { vec3 } from './vec3'
+import { Matrix3 } from './matrix3'
+import { Matrix4 } from './matrix4'
+import { Vector3 } from './vector3'
 
 import { epsilon } from './constants'
 
-export class quat {
+export class Quaternion {
 
     get x(): number {
         return this.values[0]
@@ -90,7 +90,7 @@ export class quat {
 
     static get identity()
     {
-        return new quat().setIdentity();
+        return new Quaternion().setIdentity();
     }
 
     at(index: number): number {
@@ -103,8 +103,8 @@ export class quat {
         }
     }
 
-    copy(dest?: quat): quat {
-        if (!dest) { dest = new quat() }
+    copy(dest?: Quaternion): Quaternion {
+        if (!dest) { dest = new Quaternion() }
 
         for (let i = 0; i < 4; i++) {
             dest.values[i] = this.values[i]
@@ -135,7 +135,7 @@ export class quat {
         return Math.asin(2.0 * (this.x * this.z - this.w * this.y))
     }
 
-    equals(vector: quat, threshold = epsilon): boolean {
+    equals(vector: Quaternion, threshold = epsilon): boolean {
         for (let i = 0; i < 4; i++) {
             if (Math.abs(this.values[i] - vector.at(i)) > threshold) {
                 return false
@@ -145,7 +145,7 @@ export class quat {
         return true
     }
 
-    setIdentity(): quat {
+    setIdentity(): Quaternion {
         this.x = 0
         this.y = 0
         this.z = 0
@@ -154,7 +154,7 @@ export class quat {
         return this
     }
 
-    calculateW(): quat {
+    calculateW(): Quaternion {
         const x = this.x
         const y = this.y
         const z = this.z
@@ -164,8 +164,8 @@ export class quat {
         return this
     }
 
-    inverse(): quat {
-        const dot = quat.dot(this, this)
+    inverse(): Quaternion {
+        const dot = Quaternion.dot(this, this)
 
         if (!dot) {
             this.xyzw = [0, 0, 0, 0]
@@ -183,7 +183,7 @@ export class quat {
         return this
     }
 
-    conjugate(): quat {
+    conjugate(): Quaternion {
         this.values[0] *= -1
         this.values[1] *= -1
         this.values[2] *= -1
@@ -200,7 +200,7 @@ export class quat {
         return Math.sqrt(x * x + y * y + z * z + w * w)
     }
 
-    normalize(dest?: quat): quat {
+    normalize(dest?: Quaternion): Quaternion {
         if (!dest) { dest = this }
 
         const x = this.x
@@ -229,7 +229,7 @@ export class quat {
         return dest
     }
 
-    add(other: quat): quat {
+    add(other: Quaternion): Quaternion {
         for (let i = 0; i < 4; i++) {
             this.values[i] += other.at(i)
         }
@@ -237,7 +237,7 @@ export class quat {
         return this
     }
 
-    multiply(other: quat): quat {
+    multiply(other: Quaternion): Quaternion {
         const q1x = this.values[0]
         const q1y = this.values[1]
         const q1z = this.values[2]
@@ -256,8 +256,8 @@ export class quat {
         return this
     }
 
-    multiplyVec3(vector: vec3, dest?: vec3): vec3 {
-        if (!dest) { dest = new vec3() }
+    multiplyVec3(vector: Vector3, dest?: Vector3): Vector3 {
+        if (!dest) { dest = new Vector3() }
 
         const x = vector.x
         const y = vector.y
@@ -280,8 +280,7 @@ export class quat {
         return dest
     }
 
-    toMat3(dest?: mat3): mat3 {
-        if (!dest) { dest = new mat3() }
+    toMat3(dest = new Matrix3()) {
 
         const x = this.x
         const y = this.y
@@ -302,7 +301,7 @@ export class quat {
         const wy = w * y2
         const wz = w * z2
 
-        dest.init([
+        dest.setAll([
             1 - (yy + zz),
             xy + wz,
             xz - wy,
@@ -319,8 +318,7 @@ export class quat {
         return dest
     }
 
-    toMat4(dest?: mat4): mat4 {
-        if (!dest) { dest = new mat4() }
+    toMat4(dest = new Matrix4()) {
 
         const x = this.x
         const y = this.y
@@ -341,7 +339,7 @@ export class quat {
         const wy = w * y2
         const wz = w * z2
 
-        dest.init([
+        dest.setAll([
             1 - (yy + zz),
             xy + wz,
             xz - wy,
@@ -366,12 +364,12 @@ export class quat {
         return dest
     }
 
-    static dot(q1: quat, q2: quat): number {
+    static dot(q1: Quaternion, q2: Quaternion): number {
         return q1.x * q2.x + q1.y * q2.y + q1.z * q2.z + q1.w * q2.w
     }
 
-    static sum(q1: quat, q2: quat, dest?: quat): quat {
-        if (!dest) { dest = new quat() }
+    static sum(q1: Quaternion, q2: Quaternion, dest?: Quaternion): Quaternion {
+        if (!dest) { dest = new Quaternion() }
 
         dest.x = q1.x + q2.x
         dest.y = q1.y + q2.y
@@ -381,8 +379,8 @@ export class quat {
         return dest
     }
 
-    static product(q1: quat, q2: quat, dest?: quat): quat {
-        if (!dest) { dest = new quat() }
+    static product(q1: Quaternion, q2: Quaternion, dest?: Quaternion): Quaternion {
+        if (!dest) { dest = new Quaternion() }
 
         const q1x = q1.x
         const q1y = q1.y
@@ -402,8 +400,8 @@ export class quat {
         return dest
     }
 
-    static cross(q1: quat, q2: quat, dest?: quat): quat {
-        if (!dest) { dest = new quat() }
+    static cross(q1: Quaternion, q2: Quaternion, dest?: Quaternion): Quaternion {
+        if (!dest) { dest = new Quaternion() }
 
         const q1x = q1.x
         const q1y = q1.y
@@ -423,8 +421,8 @@ export class quat {
         return dest
     }
 
-    static shortMix(q1: quat, q2: quat, time: number, dest?: quat): quat {
-        if (!dest) { dest = new quat() }
+    static shortMix(q1: Quaternion, q2: Quaternion, time: number, dest?: Quaternion): Quaternion {
+        if (!dest) { dest = new Quaternion() }
 
         if (time <= 0.0) {
             dest.xyzw = q1.xyzw
@@ -436,7 +434,7 @@ export class quat {
             return dest
         }
 
-        let cos = quat.dot(q1, q2)
+        let cos = Quaternion.dot(q1, q2)
         const q2a = q2.copy()
 
         if (cos < 0.0) {
@@ -468,8 +466,8 @@ export class quat {
         return dest
     }
 
-    static mix(q1: quat, q2: quat, time: number, dest?: quat): quat {
-        if (!dest) { dest = new quat() }
+    static mix(q1: Quaternion, q2: Quaternion, time: number, dest?: Quaternion): Quaternion {
+        if (!dest) { dest = new Quaternion() }
 
         const cosHalfTheta = q1.x * q2.x + q1.y * q2.y + q1.z * q2.z + q1.w * q2.w
 
@@ -502,8 +500,8 @@ export class quat {
         return dest
     }
 
-    static fromAxisAngle(axis: vec3, angle: number, dest?: quat): quat {
-        if (!dest) { dest = new quat() }
+    static fromAxisAngle(axis: Vector3, angle: number, dest?: Quaternion): Quaternion {
+        if (!dest) { dest = new Quaternion() }
 
         angle *= 0.5
         const sin = Math.sin(angle)

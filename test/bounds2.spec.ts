@@ -5,15 +5,15 @@ import { Bounds2 } from '../src/bounds2'
 
 import { epsilon } from '../src/constants'
 import { Ray2 } from '../src/ray2'
-import { vec2 } from '../src/vec2'
+import { Vector2 } from '../src/vector2'
 
 describe('Bounds2', () => 
 {
     it('fixesOrder', () => 
     {
         const bounds = new Bounds2(
-            new vec2(-5, 1),
-            new vec2(5, -2),
+            new Vector2(-5, 1),
+            new Vector2(5, -2),
             true
         );
 
@@ -25,16 +25,16 @@ describe('Bounds2', () =>
 
     it('getsArea', () =>
     {
-        let b = new Bounds2(vec2.one, new vec2(5, 3));
+        let b = new Bounds2(Vector2.one, new Vector2(5, 3));
 
         expect(b.getArea()).to.equal(8);
     })
 
     it('intersectsBounds', () =>
     {
-        const a = new Bounds2(new vec2(-5, -4), new vec2(5, 3));
-        const b = new Bounds2(vec2.one, new vec2(5, 3));
-        const c = new Bounds2(new vec2(5, 4), new vec2(6, 5));
+        const a = new Bounds2(new Vector2(-5, -4), new Vector2(5, 3));
+        const b = new Bounds2(Vector2.one, new Vector2(5, 3));
+        const c = new Bounds2(new Vector2(5, 4), new Vector2(6, 5));
 
         expect(a.intersectsBounds2(b)).to.equal(true);
         expect(a.intersectsBounds2(c)).to.equal(false);
@@ -42,11 +42,11 @@ describe('Bounds2', () =>
 
     it('intersectsRay', () =>
     {
-        const a = new Bounds2(new vec2(-5, -4), new vec2(5, 3));
+        const a = new Bounds2(new Vector2(-5, -4), new Vector2(5, 3));
         
-        const r1 = new Ray2(new vec2(10, 10), new vec2(1, 1));
+        const r1 = new Ray2(new Vector2(10, 10), new Vector2(1, 1));
 
-        const r2 = new Ray2(new vec2(10, 10), new vec2(1, -1));
+        const r2 = new Ray2(new Vector2(10, 10), new Vector2(1, -1));
 
         expect(a.intersectsRay(r1)).to.equal(true);
         expect(a.intersectsRay(r2)).to.equal(false);
@@ -54,9 +54,9 @@ describe('Bounds2', () =>
 
     it('containsPoint', () =>
     {
-        const a = new Bounds2(new vec2(-5, -4), new vec2(5, 3));
+        const a = new Bounds2(new Vector2(-5, -4), new Vector2(5, 3));
 
-        expect(a.containsPoint(new vec2(0, 0))).to.equal(true);
-        expect(a.containsPoint(new vec2(10, -20))).to.equal(false);
+        expect(a.containsPoint(new Vector2(0, 0))).to.equal(true);
+        expect(a.containsPoint(new Vector2(10, -20))).to.equal(false);
     });
 })

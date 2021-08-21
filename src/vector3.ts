@@ -1,9 +1,9 @@
-import { mat3 } from './mat3'
-import { quat } from './quat'
+import { Matrix3 } from './matrix3'
+import { Quaternion } from './quaternion'
 
 import { epsilon } from './constants'
 
-export class vec3 {
+export class Vector3 {
 
     get x(): number {
         return this.values[0]
@@ -74,17 +74,17 @@ export class vec3 {
 
     static get zero()
     {
-        return new vec3(0, 0, 0);
+        return new Vector3(0, 0, 0);
     }
 
     static get one()
     {
-        return new vec3(1, 1, 1)
+        return new Vector3(1, 1, 1)
     }
 
-    static readonly up = new vec3([0, 1, 0])
-    static readonly right = new vec3([1, 0, 0])
-    static readonly forward = new vec3([0, 0, 1])
+    static readonly up = new Vector3([0, 1, 0])
+    static readonly right = new Vector3([1, 0, 0])
+    static readonly forward = new Vector3([0, 0, 1])
 
     at(index: number): number {
         return this.values[index]
@@ -101,8 +101,8 @@ export class vec3 {
         this.z = 0
     }
 
-    copy(dest?: vec3): vec3 {
-        if (!dest) { dest = new vec3() }
+    copy(dest?: Vector3): Vector3 {
+        if (!dest) { dest = new Vector3() }
 
         dest.x = this.x
         dest.y = this.y
@@ -111,7 +111,7 @@ export class vec3 {
         return dest
     }
 
-    negate(dest?: vec3): vec3 {
+    negate(dest?: Vector3): Vector3 {
         if (!dest) { dest = this }
 
         dest.x = -this.x
@@ -121,7 +121,7 @@ export class vec3 {
         return dest
     }
 
-    equals(vector: vec3, threshold = epsilon): boolean {
+    equals(vector: Vector3, threshold = epsilon): boolean {
         if (Math.abs(this.x - vector.x) > threshold) {
             return false
         }
@@ -149,7 +149,7 @@ export class vec3 {
         return (x * x + y * y + z * z)
     }
 
-    add(vector: vec3): vec3 {
+    add(vector: Vector3): Vector3 {
         this.x += vector.x
         this.y += vector.y
         this.z += vector.z
@@ -157,7 +157,7 @@ export class vec3 {
         return this
     }
 
-    subtract(vector: vec3): vec3 {
+    subtract(vector: Vector3): Vector3 {
         this.x -= vector.x
         this.y -= vector.y
         this.z -= vector.z
@@ -165,7 +165,7 @@ export class vec3 {
         return this
     }
 
-    multiply(vector: vec3): vec3 {
+    multiply(vector: Vector3): Vector3 {
         this.x *= vector.x
         this.y *= vector.y
         this.z *= vector.z
@@ -173,7 +173,7 @@ export class vec3 {
         return this
     }
 
-    divide(vector: vec3): vec3 {
+    divide(vector: Vector3): Vector3 {
         this.x /= vector.x
         this.y /= vector.y
         this.z /= vector.z
@@ -181,7 +181,7 @@ export class vec3 {
         return this
     }
 
-    scale(value: number, dest?: vec3): vec3 {
+    scale(value: number, dest?: Vector3): Vector3 {
         if (!dest) { dest = this }
 
         dest.x *= value
@@ -191,7 +191,7 @@ export class vec3 {
         return dest
     }
 
-    normalize(dest?: vec3): vec3 {
+    normalize(dest?: Vector3): Vector3 {
         if (!dest) { dest = this }
 
         let length = this.length()
@@ -217,23 +217,23 @@ export class vec3 {
         return dest
     }
 
-    multiplyByMat3(matrix: mat3, dest?: vec3): vec3 {
+    multiplyByMat3(matrix: Matrix3, dest?: Vector3): Vector3 {
         if (!dest) { dest = this }
 
         return matrix.multiplyVec3(this, dest)
     }
 
-    multiplyByQuat(quaternion: quat, dest?: vec3): vec3 {
+    multiplyByQuat(quaternion: Quaternion, dest?: Vector3): Vector3 {
         if (!dest) { dest = this }
 
         return quaternion.multiplyVec3(this, dest)
     }
 
-    toQuat(dest?: quat): quat {
-        if (!dest) { dest = new quat() }
+    toQuat(dest?: Quaternion): Quaternion {
+        if (!dest) { dest = new Quaternion() }
 
-        const c = new vec3()
-        const s = new vec3()
+        const c = new Vector3()
+        const s = new Vector3()
 
         c.x = Math.cos(this.x * 0.5)
         s.x = Math.sin(this.x * 0.5)
@@ -252,8 +252,8 @@ export class vec3 {
         return dest
     }
 
-    static cross(vector: vec3, vector2: vec3, dest?: vec3): vec3 {
-        if (!dest) { dest = new vec3() }
+    static cross(vector: Vector3, vector2: Vector3, dest?: Vector3): Vector3 {
+        if (!dest) { dest = new Vector3() }
 
         const x = vector.x
         const y = vector.y
@@ -270,7 +270,7 @@ export class vec3 {
         return dest
     }
 
-    static dot(vector: vec3, vector2: vec3): number {
+    static dot(vector: Vector3, vector2: Vector3): number {
         const x = vector.x
         const y = vector.y
         const z = vector.z
@@ -282,7 +282,7 @@ export class vec3 {
         return (x * x2 + y * y2 + z * z2)
     }
 
-    static distance(vector: vec3, vector2: vec3): number {
+    static distance(vector: Vector3, vector2: Vector3): number {
         const x = vector2.x - vector.x
         const y = vector2.y - vector.y
         const z = vector2.z - vector.z
@@ -290,7 +290,7 @@ export class vec3 {
         return Math.sqrt(this.squaredDistance(vector, vector2))
     }
 
-    static squaredDistance(vector: vec3, vector2: vec3): number {
+    static squaredDistance(vector: Vector3, vector2: Vector3): number {
         const x = vector2.x - vector.x
         const y = vector2.y - vector.y
         const z = vector2.z - vector.z
@@ -298,8 +298,8 @@ export class vec3 {
         return (x * x + y * y + z * z)
     }
 
-    static direction(vector: vec3, vector2: vec3, dest?: vec3): vec3 {
-        if (!dest) { dest = new vec3() }
+    static direction(vector: Vector3, vector2: Vector3, dest?: Vector3): Vector3 {
+        if (!dest) { dest = new Vector3() }
 
         const x = vector.x - vector2.x
         const y = vector.y - vector2.y
@@ -324,8 +324,8 @@ export class vec3 {
         return dest
     }
 
-    static mix(vector: vec3, vector2: vec3, time: number, dest?: vec3): vec3 {
-        if (!dest) { dest = new vec3() }
+    static mix(vector: Vector3, vector2: Vector3, time: number, dest?: Vector3): Vector3 {
+        if (!dest) { dest = new Vector3() }
 
         dest.x = vector.x + time * (vector2.x - vector.x)
         dest.y = vector.y + time * (vector2.y - vector.y)
@@ -334,8 +334,8 @@ export class vec3 {
         return dest
     }
 
-    static sum(vector: vec3, vector2: vec3, dest?: vec3): vec3 {
-        if (!dest) { dest = new vec3() }
+    static sum(vector: Vector3, vector2: Vector3, dest?: Vector3): Vector3 {
+        if (!dest) { dest = new Vector3() }
 
         dest.x = vector.x + vector2.x
         dest.y = vector.y + vector2.y
@@ -344,8 +344,8 @@ export class vec3 {
         return dest
     }
 
-    static difference(vector: vec3, vector2: vec3, dest?: vec3): vec3 {
-        if (!dest) { dest = new vec3() }
+    static difference(vector: Vector3, vector2: Vector3, dest?: Vector3): Vector3 {
+        if (!dest) { dest = new Vector3() }
 
         dest.x = vector.x - vector2.x
         dest.y = vector.y - vector2.y
@@ -354,8 +354,8 @@ export class vec3 {
         return dest
     }
 
-    static product(vector: vec3, vector2: vec3, dest?: vec3): vec3 {
-        if (!dest) { dest = new vec3() }
+    static product(vector: Vector3, vector2: Vector3, dest?: Vector3): Vector3 {
+        if (!dest) { dest = new Vector3() }
 
         dest.x = vector.x * vector2.x
         dest.y = vector.y * vector2.y
@@ -364,8 +364,8 @@ export class vec3 {
         return dest
     }
 
-    static quotient(vector: vec3, vector2: vec3, dest?: vec3): vec3 {
-        if (!dest) { dest = new vec3() }
+    static quotient(vector: Vector3, vector2: Vector3, dest?: Vector3): Vector3 {
+        if (!dest) { dest = new Vector3() }
 
         dest.x = vector.x / vector2.x
         dest.y = vector.y / vector2.y

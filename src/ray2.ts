@@ -1,11 +1,11 @@
 import { equals } from "./utils";
-import { vec2 } from "./vec2";
+import { Vector2 } from "./vector2";
 
 export class Ray2
 {
     constructor(
-        public origin: vec2,
-        public direction: vec2
+        public origin: Vector2,
+        public direction: Vector2
     )
     {
 
@@ -33,7 +33,7 @@ export class Ray2
         let d1 = this.direction.copy().normalize();
         let d2 = other.direction.copy().normalize();
 
-        let dot = vec2.dot(d1, d2);
+        let dot = Vector2.dot(d1, d2);
 
         return Math.acos(dot);
     }

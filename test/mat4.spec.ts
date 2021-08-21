@@ -1,14 +1,14 @@
 import { expect } from 'chai'
 import 'mocha'
 
-import { mat4 } from '../src/mat4'
+import { Matrix4 } from '../src/matrix4'
 
 import { epsilon } from '../src/constants'
 
 describe('mat4', () => {
 
   it('transposes', () => {
-    const matrix = new mat4([
+    const matrix = new Matrix4([
         1.0, 2.0, 3.0, 4.0,
         5.0, 6.0, 7.0, 8.0,
         9.0, 10.0, 11.0, 12.0,
@@ -40,7 +40,7 @@ describe('mat4', () => {
   })
 
   it('computes perspective projection', () => {
-    const matrix = mat4.perspective(45, 1, 1, 100)
+    const matrix = Matrix4.perspective(45, 1, 1, 100)
 
     expect(matrix.at(0)).to.be.approximately(2.414213, epsilon)
     expect(matrix.at(1)).to.equal(0.0)
@@ -65,7 +65,7 @@ describe('mat4', () => {
   })
 
   it('computes orthographic projection', () => {
-    const matrix = mat4.orthographic(0, 800, 0, 600, 1, 100)
+    const matrix = Matrix4.orthographic(0, 800, 0, 600, 1, 100)
 
     expect(matrix.at(0)).to.be.approximately(0.002499, epsilon)
     expect(matrix.at(1)).to.equal(0.0)

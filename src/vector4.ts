@@ -1,8 +1,8 @@
-import { mat4 } from './mat4'
+import { Matrix4 } from './matrix4'
 
 import { epsilon } from './constants'
 
-export class vec4 {
+export class Vector4 {
 
     get x(): number {
         return this.values[0]
@@ -172,12 +172,12 @@ export class vec4 {
 
     static get zero()
     {
-        return new vec4(0, 0, 0, 0);
+        return new Vector4(0, 0, 0, 0);
     }
 
     static get one()
     {
-        return new vec4(1, 1, 1, 1)
+        return new Vector4(1, 1, 1, 1)
     }
 
     at(index: number): number {
@@ -196,8 +196,8 @@ export class vec4 {
         this.w = 0
     }
 
-    copy(dest?: vec4): vec4 {
-        if (!dest) { dest = new vec4() }
+    copy(dest?: Vector4): Vector4 {
+        if (!dest) { dest = new Vector4() }
 
         dest.x = this.x
         dest.y = this.y
@@ -207,7 +207,7 @@ export class vec4 {
         return dest
     }
 
-    negate(dest?: vec4): vec4 {
+    negate(dest?: Vector4): Vector4 {
         if (!dest) { dest = this }
 
         dest.x = -this.x
@@ -218,7 +218,7 @@ export class vec4 {
         return dest
     }
 
-    equals(vector: vec4, threshold = epsilon): boolean {
+    equals(vector: Vector4, threshold = epsilon): boolean {
         if (Math.abs(this.x - vector.x) > threshold) {
             return false
         }
@@ -251,7 +251,7 @@ export class vec4 {
         return (x * x + y * y + z * z + w * w)
     }
 
-    add(vector: vec4): vec4 {
+    add(vector: Vector4): Vector4 {
         this.x += vector.x
         this.y += vector.y
         this.z += vector.z
@@ -260,7 +260,7 @@ export class vec4 {
         return this
     }
 
-    subtract(vector: vec4): vec4 {
+    subtract(vector: Vector4): Vector4 {
         this.x -= vector.x
         this.y -= vector.y
         this.z -= vector.z
@@ -269,7 +269,7 @@ export class vec4 {
         return this
     }
 
-    multiply(vector: vec4): vec4 {
+    multiply(vector: Vector4): Vector4 {
         this.x *= vector.x
         this.y *= vector.y
         this.z *= vector.z
@@ -278,7 +278,7 @@ export class vec4 {
         return this
     }
 
-    divide(vector: vec4): vec4 {
+    divide(vector: Vector4): Vector4 {
         this.x /= vector.x
         this.y /= vector.y
         this.z /= vector.z
@@ -287,7 +287,7 @@ export class vec4 {
         return this
     }
 
-    scale(value: number, dest?: vec4): vec4 {
+    scale(value: number, dest?: Vector4): Vector4 {
         if (!dest) { dest = this }
 
         dest.x *= value
@@ -298,7 +298,7 @@ export class vec4 {
         return dest
     }
 
-    normalize(dest?: vec4): vec4 {
+    normalize(dest?: Vector4): Vector4 {
         if (!dest) { dest = this }
 
         let length = this.length()
@@ -326,14 +326,14 @@ export class vec4 {
         return dest
     }
 
-    multiplyMat4(matrix: mat4, dest?: vec4): vec4 {
+    multiplyMat4(matrix: Matrix4, dest?: Vector4): Vector4 {
         if (!dest) { dest = this }
 
         return matrix.multiplyVec4(this, dest)
     }
 
-    static mix(vector: vec4, vector2: vec4, time: number, dest?: vec4): vec4 {
-        if (!dest) { dest = new vec4() }
+    static mix(vector: Vector4, vector2: Vector4, time: number, dest?: Vector4): Vector4 {
+        if (!dest) { dest = new Vector4() }
 
         dest.x = vector.x + time * (vector2.x - vector.x)
         dest.y = vector.y + time * (vector2.y - vector.y)
@@ -343,8 +343,8 @@ export class vec4 {
         return dest
     }
 
-    static sum(vector: vec4, vector2: vec4, dest?: vec4): vec4 {
-        if (!dest) { dest = new vec4() }
+    static sum(vector: Vector4, vector2: Vector4, dest?: Vector4): Vector4 {
+        if (!dest) { dest = new Vector4() }
 
         dest.x = vector.x + vector2.x
         dest.y = vector.y + vector2.y
@@ -354,8 +354,8 @@ export class vec4 {
         return dest
     }
 
-    static difference(vector: vec4, vector2: vec4, dest?: vec4): vec4 {
-        if (!dest) { dest = new vec4() }
+    static difference(vector: Vector4, vector2: Vector4, dest?: Vector4): Vector4 {
+        if (!dest) { dest = new Vector4() }
 
         dest.x = vector.x - vector2.x
         dest.y = vector.y - vector2.y
@@ -365,8 +365,8 @@ export class vec4 {
         return dest
     }
 
-    static product(vector: vec4, vector2: vec4, dest?: vec4): vec4 {
-        if (!dest) { dest = new vec4() }
+    static product(vector: Vector4, vector2: Vector4, dest?: Vector4): Vector4 {
+        if (!dest) { dest = new Vector4() }
 
         dest.x = vector.x * vector2.x
         dest.y = vector.y * vector2.y
@@ -376,8 +376,8 @@ export class vec4 {
         return dest
     }
 
-    static quotient(vector: vec4, vector2: vec4, dest?: vec4): vec4 {
-        if (!dest) { dest = new vec4() }
+    static quotient(vector: Vector4, vector2: Vector4, dest?: Vector4): Vector4 {
+        if (!dest) { dest = new Vector4() }
 
         dest.x = vector.x / vector2.x
         dest.y = vector.y / vector2.y

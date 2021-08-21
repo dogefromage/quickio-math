@@ -1,29 +1,43 @@
-import { mat3 } from './mat3'
-import { vec3 } from './vec3'
-import { vec4 } from './vec4'
+import { Matrix3 } from './matrix3'
+import { Vector3 } from './vector3'
+import { Vector4 } from './vector4'
 
 import { epsilon } from './constants'
+import { equals } from './utils';
 
-export class mat4 {
+export class Matrix4 
+{
+    private values = new Float32Array(16)
 
-    constructor(values?: number[]) {
-        if (values !== undefined) {
-            this.init(values)
+    constructor();
+    constructor(values?: number[]);
+
+    constructor(...args: any[])
+    {
+        if (typeof(args[0]) === 'object')
+        {
+            for (let i = 0; i < 16; i++)
+            {
+                this.values[i] = args[0][i] || 0;
+            }
         }
     }
 
-    private values = new Float32Array(16)
-
     static get identity()
     {
-        return new mat4().setIdentity();
+        return new Matrix4().setIdentity();
     }
 
-    at(index: number): number {
+    at(index: number) {
         return this.values[index]
     }
+    
+    set(index: number, value: number)
+    {
+        this.values[index] = value;
+    }
 
-    init(values: number[]): mat4 {
+    setAll(values: number[]) {
         for (let i = 0; i < 16; i++) {
             this.values[i] = values[i]
         }
@@ -31,15 +45,14 @@ export class mat4 {
         return this
     }
 
-    reset(): void {
+    reset() {
         for (let i = 0; i < 16; i++) {
             this.values[i] = 0
         }
     }
 
-    copy(dest?: mat4): mat4 {
-        if (!dest) { dest = new mat4() }
-
+    copy(dest = new Matrix4()) 
+    {
         for (let i = 0; i < 16; i++) {
             dest.values[i] = this.values[i]
         }
@@ -47,7 +60,7 @@ export class mat4 {
         return dest
     }
 
-    all(): number[] {
+    all() {
         const data: number[] = []
         for (let i = 0; i < 16; i++) {
             data[i] = this.values[i]
@@ -56,7 +69,7 @@ export class mat4 {
         return data
     }
 
-    row(index: number): number[] {
+    row(index: number) {
         return [
             this.values[index * 4 + 0],
             this.values[index * 4 + 1],
@@ -65,7 +78,7 @@ export class mat4 {
         ]
     }
 
-    col(index: number): number[] {
+    col(index: number) {
         return [
             this.values[index],
             this.values[index + 4],
@@ -74,9 +87,9 @@ export class mat4 {
         ]
     }
 
-    equals(matrix: mat4, threshold = epsilon): boolean {
+    equals(matrix: Matrix4, threshold = epsilon) {
         for (let i = 0; i < 16; i++) {
-            if (Math.abs(this.values[i] - matrix.at(i)) > threshold) {
+            if (equals(matrix.at(i), this.at(i), threshold)) {
                 return false
             }
         }
@@ -84,7 +97,7 @@ export class mat4 {
         return true
     }
 
-    determinant(): number {
+    determinant() {
         const a00 = this.values[0]
         const a01 = this.values[1]
         const a02 = this.values[2]
@@ -118,28 +131,18 @@ export class mat4 {
         return (det00 * det11 - det01 * det10 + det02 * det09 + det03 * det08 - det04 * det07 + det05 * det06)
     }
 
-    setIdentity(): mat4 {
+    setIdentity() {
+
+        this.reset();
         this.values[0] = 1
-        this.values[1] = 0
-        this.values[2] = 0
-        this.values[3] = 0
-        this.values[4] = 0
         this.values[5] = 1
-        this.values[6] = 0
-        this.values[7] = 0
-        this.values[8] = 0
-        this.values[9] = 0
         this.values[10] = 1
-        this.values[11] = 0
-        this.values[12] = 0
-        this.values[13] = 0
-        this.values[14] = 0
         this.values[15] = 1
 
         return this
     }
 
-    transpose(): mat4 {
+    transpose() {
         const temp01 = this.values[1]
         const temp02 = this.values[2]
         const temp03 = this.values[3]
@@ -163,7 +166,7 @@ export class mat4 {
         return this
     }
 
-    inverse(): mat4 | undefined {
+    inverse() {
         const a00 = this.values[0]
         const a01 = this.values[1]
         const a02 = this.values[2]
@@ -222,7 +225,7 @@ export class mat4 {
         return this
     }
 
-    multiply(matrix: mat4): mat4 {
+    multiply(matrix: Matrix4) {
         const a00 = this.values[0]
         const a01 = this.values[1]
         const a02 = this.values[2]
@@ -283,36 +286,35 @@ export class mat4 {
         return this
     }
 
-    multiplyVec3(vector: vec3): vec3 {
-        const x = vector.x
-        const y = vector.y
-        const z = vector.z
+    multiplyVec3(v: Vector3, dest = new Vector3()) {
 
-        return new vec3([
-            this.values[0] * x + this.values[4] * y + this.values[8] * z + this.values[12],
-            this.values[1] * x + this.values[5] * y + this.values[9] * z + this.values[13],
-            this.values[2] * x + this.values[6] * y + this.values[10] * z + this.values[14],
-        ])
+        dest.xyz =
+        [
+            this.values[0] * v.x + this.values[1] * v.y + this.values[2] *  v.z + this.values[3],
+            this.values[4] * v.x + this.values[5] * v.y + this.values[6] *  v.z + this.values[7],
+            this.values[8] * v.x + this.values[9] * v.y + this.values[10] * v.z + this.values[11],
+        ];
+
+        return dest;
     }
 
-    multiplyVec4(vector: vec4, dest?: vec4): vec4 {
-        if (!dest) { dest = new vec4() }
+    multiplyVec4(vector: Vector4, dest = new Vector4()) {
 
         const x = vector.x
         const y = vector.y
         const z = vector.z
         const w = vector.w
 
-        dest.x = this.values[0] * x + this.values[4] * y + this.values[8] * z + this.values[12] * w
-        dest.y = this.values[1] * x + this.values[5] * y + this.values[9] * z + this.values[13] * w
-        dest.z = this.values[2] * x + this.values[6] * y + this.values[10] * z + this.values[14] * w
-        dest.w = this.values[3] * x + this.values[7] * y + this.values[11] * z + this.values[15] * w
+        dest.x = this.values[0] * x + this.values[1] * y + this.values[2] * z + this.values[3] * w;
+        dest.y = this.values[4] * x + this.values[5] * y + this.values[6] * z + this.values[7] * w;
+        dest.z = this.values[8] * x + this.values[9] * y + this.values[10] * z + this.values[11] * w;
+        dest.w = this.values[12] * x + this.values[13] * y + this.values[14] * z + this.values[15] * w;
 
-        return dest
+        return dest;
     }
 
-    toMat3(): mat3 {
-        return new mat3([
+    toMat3() {
+        return new Matrix3([
             this.values[0],
             this.values[1],
             this.values[2],
@@ -325,7 +327,7 @@ export class mat4 {
         ])
     }
 
-    toInverseMat3(): mat3 | undefined {
+    toInverseMat3() {
         const a00 = this.values[0]
         const a01 = this.values[1]
         const a02 = this.values[2]
@@ -348,7 +350,7 @@ export class mat4 {
 
         det = 1.0 / det
 
-        return new mat3([
+        return new Matrix3([
             det01 * det,
             (-a22 * a01 + a02 * a21) * det,
             (a12 * a01 - a02 * a11) * det,
@@ -361,7 +363,7 @@ export class mat4 {
         ])
     }
 
-    translate(vector: vec3): mat4 {
+    translate(vector: Vector3) {
         const x = vector.x
         const y = vector.y
         const z = vector.z
@@ -374,7 +376,7 @@ export class mat4 {
         return this
     }
 
-    scale(vector: vec3): mat4 {
+    scale(vector: Vector3) {
         const x = vector.x
         const y = vector.y
         const z = vector.z
@@ -397,7 +399,7 @@ export class mat4 {
         return this
     }
 
-    rotate(angle: number, axis: vec3): mat4 | undefined {
+    rotate(angle: number, axis: Vector3) {
         let x = axis.x
         let y = axis.y
         let z = axis.z
@@ -465,12 +467,12 @@ export class mat4 {
         return this
     }
 
-    static frustum(left: number, right: number, bottom: number, top: number, near: number, far: number): mat4 {
+    static frustum(left: number, right: number, bottom: number, top: number, near: number, far: number) {
         const rl = (right - left)
         const tb = (top - bottom)
         const fn = (far - near)
 
-        return new mat4([
+        return new Matrix4([
             (near * 2) / rl,
             0,
             0,
@@ -493,19 +495,19 @@ export class mat4 {
         ])
     }
 
-    static perspective(fov: number, aspect: number, near: number, far: number): mat4 {
+    static perspective(fov: number, aspect: number, near: number, far: number) {
         const top = near * Math.tan(fov * Math.PI / 360.0)
         const right = top * aspect
 
-        return mat4.frustum(-right, right, -top, top, near, far)
+        return Matrix4.frustum(-right, right, -top, top, near, far)
     }
 
-    static orthographic(left: number, right: number, bottom: number, top: number, near: number, far: number): mat4 {
+    static orthographic(left: number, right: number, bottom: number, top: number, near: number, far: number) {
         const rl = (right - left)
         const tb = (top - bottom)
         const fn = (far - near)
 
-        return new mat4([
+        return new Matrix4([
             2 / rl,
             0,
             0,
@@ -528,17 +530,17 @@ export class mat4 {
         ])
     }
 
-    static lookAt(position: vec3, target: vec3, up: vec3 = vec3.up): mat4 {
+    static lookAt(position: Vector3, target: Vector3, up: Vector3 = Vector3.up) {
         if (position.equals(target)) {
             return this.identity
         }
 
-        const z = vec3.difference(position, target).normalize()
+        const z = Vector3.difference(position, target).normalize()
 
-        const x = vec3.cross(up, z).normalize()
-        const y = vec3.cross(z, x).normalize()
+        const x = Vector3.cross(up, z).normalize()
+        const y = Vector3.cross(z, x).normalize()
 
-        return new mat4([
+        return new Matrix4([
             x.x,
             y.x,
             z.x,
@@ -554,14 +556,14 @@ export class mat4 {
             z.z,
             0,
 
-            -vec3.dot(x, position),
-            -vec3.dot(y, position),
-            -vec3.dot(z, position),
+            -Vector3.dot(x, position),
+            -Vector3.dot(y, position),
+            -Vector3.dot(z, position),
             1,
         ])
     }
 
-    static product(m1: mat4, m2: mat4, result: mat4): mat4 {
+    static product(m1: Matrix4, m2: Matrix4, dest = new Matrix4()) {
         const a00 = m1.at(0)
         const a01 = m1.at(1)
         const a02 = m1.at(2)
@@ -596,53 +598,28 @@ export class mat4 {
         const b32 = m2.at(14)
         const b33 = m2.at(15)
 
-        if (result) {
-            result.init([
-                b00 * a00 + b01 * a10 + b02 * a20 + b03 * a30,
-                b00 * a01 + b01 * a11 + b02 * a21 + b03 * a31,
-                b00 * a02 + b01 * a12 + b02 * a22 + b03 * a32,
-                b00 * a03 + b01 * a13 + b02 * a23 + b03 * a33,
+        dest.setAll([
+            b00 * a00 + b01 * a10 + b02 * a20 + b03 * a30,
+            b00 * a01 + b01 * a11 + b02 * a21 + b03 * a31,
+            b00 * a02 + b01 * a12 + b02 * a22 + b03 * a32,
+            b00 * a03 + b01 * a13 + b02 * a23 + b03 * a33,
 
-                b10 * a00 + b11 * a10 + b12 * a20 + b13 * a30,
-                b10 * a01 + b11 * a11 + b12 * a21 + b13 * a31,
-                b10 * a02 + b11 * a12 + b12 * a22 + b13 * a32,
-                b10 * a03 + b11 * a13 + b12 * a23 + b13 * a33,
+            b10 * a00 + b11 * a10 + b12 * a20 + b13 * a30,
+            b10 * a01 + b11 * a11 + b12 * a21 + b13 * a31,
+            b10 * a02 + b11 * a12 + b12 * a22 + b13 * a32,
+            b10 * a03 + b11 * a13 + b12 * a23 + b13 * a33,
 
-                b20 * a00 + b21 * a10 + b22 * a20 + b23 * a30,
-                b20 * a01 + b21 * a11 + b22 * a21 + b23 * a31,
-                b20 * a02 + b21 * a12 + b22 * a22 + b23 * a32,
-                b20 * a03 + b21 * a13 + b22 * a23 + b23 * a33,
+            b20 * a00 + b21 * a10 + b22 * a20 + b23 * a30,
+            b20 * a01 + b21 * a11 + b22 * a21 + b23 * a31,
+            b20 * a02 + b21 * a12 + b22 * a22 + b23 * a32,
+            b20 * a03 + b21 * a13 + b22 * a23 + b23 * a33,
 
-                b30 * a00 + b31 * a10 + b32 * a20 + b33 * a30,
-                b30 * a01 + b31 * a11 + b32 * a21 + b33 * a31,
-                b30 * a02 + b31 * a12 + b32 * a22 + b33 * a32,
-                b30 * a03 + b31 * a13 + b32 * a23 + b33 * a33,
-            ])
+            b30 * a00 + b31 * a10 + b32 * a20 + b33 * a30,
+            b30 * a01 + b31 * a11 + b32 * a21 + b33 * a31,
+            b30 * a02 + b31 * a12 + b32 * a22 + b33 * a32,
+            b30 * a03 + b31 * a13 + b32 * a23 + b33 * a33,
+        ])
 
-            return result
-        } else {
-            return new mat4([
-                b00 * a00 + b01 * a10 + b02 * a20 + b03 * a30,
-                b00 * a01 + b01 * a11 + b02 * a21 + b03 * a31,
-                b00 * a02 + b01 * a12 + b02 * a22 + b03 * a32,
-                b00 * a03 + b01 * a13 + b02 * a23 + b03 * a33,
-
-                b10 * a00 + b11 * a10 + b12 * a20 + b13 * a30,
-                b10 * a01 + b11 * a11 + b12 * a21 + b13 * a31,
-                b10 * a02 + b11 * a12 + b12 * a22 + b13 * a32,
-                b10 * a03 + b11 * a13 + b12 * a23 + b13 * a33,
-
-                b20 * a00 + b21 * a10 + b22 * a20 + b23 * a30,
-                b20 * a01 + b21 * a11 + b22 * a21 + b23 * a31,
-                b20 * a02 + b21 * a12 + b22 * a22 + b23 * a32,
-                b20 * a03 + b21 * a13 + b22 * a23 + b23 * a33,
-
-                b30 * a00 + b31 * a10 + b32 * a20 + b33 * a30,
-                b30 * a01 + b31 * a11 + b32 * a21 + b33 * a31,
-                b30 * a02 + b31 * a12 + b32 * a22 + b33 * a32,
-                b30 * a03 + b31 * a13 + b32 * a23 + b33 * a33,
-            ])
-        }
+        return dest;
     }
-
 }

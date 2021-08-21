@@ -1,14 +1,14 @@
 import { expect } from 'chai'
 import 'mocha'
 
-import { quat } from './../src/quat'
+import { Quaternion } from './../src/quaternion'
 
 import { epsilon } from '../src/constants'
 
 describe('quat', () => {
 
   it('resets', () => {
-    const q = new quat([1.0, 2.0, 3.0, 4.0])
+    const q = new Quaternion([1.0, 2.0, 3.0, 4.0])
 
     q.reset()
 
@@ -18,7 +18,7 @@ describe('quat', () => {
   })
 
   it('copies', () => {
-    const q1 = new quat([1.0, 2.0, 3.0, 4.0])
+    const q1 = new Quaternion([1.0, 2.0, 3.0, 4.0])
     const q2 = q1.copy()
 
     expect(q2.x).to.equal(q1.x)
@@ -28,17 +28,17 @@ describe('quat', () => {
   })
 
   it('compares', () => {
-    const q1 = new quat([1.0, 2.0, 3.0, 4.0])
-    const q2 = new quat([1.0, 2.0, 3.0, 4.0])
-    const q3 = new quat([2.0, 3.0, 4.0, 5.0])
+    const q1 = new Quaternion([1.0, 2.0, 3.0, 4.0])
+    const q2 = new Quaternion([1.0, 2.0, 3.0, 4.0])
+    const q3 = new Quaternion([2.0, 3.0, 4.0, 5.0])
 
     expect(q1.equals(q2)).to.equal(true)
     expect(q1.equals(q3)).to.equal(false)
   })
 
   it('adds', () => {
-    const q1 = new quat([1.0, 2.0, 3.0, 4.0])
-    const q2 = new quat([2.0, 3.0, 4.0, 5.0])
+    const q1 = new Quaternion([1.0, 2.0, 3.0, 4.0])
+    const q2 = new Quaternion([2.0, 3.0, 4.0, 5.0])
 
     const result = q1.add(q2)
 
@@ -49,8 +49,8 @@ describe('quat', () => {
   })
 
   it('multiplies', () => {
-    const q1 = new quat([1.0, 3.0, 4.0, 5.0])
-    const q2 = new quat([5.0, 6.0, 7.0, 8.0])
+    const q1 = new Quaternion([1.0, 3.0, 4.0, 5.0])
+    const q2 = new Quaternion([5.0, 6.0, 7.0, 8.0])
 
     const result = q1.multiply(q2)
 
@@ -61,7 +61,7 @@ describe('quat', () => {
   })
 
   it('normalizes', () => {
-    const quaternion = new quat([1.0, 2.0, 3.0, 4.0])
+    const quaternion = new Quaternion([1.0, 2.0, 3.0, 4.0])
 
     quaternion.normalize()
 

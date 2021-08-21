@@ -1,11 +1,12 @@
 
 
-export { vec2 as Vector2 } from './vec2';
-export { vec3 as Vector3 } from './vec3';
-export { vec4 as Vector4 } from './vec4';
-export { mat2 as Matrix2 } from './mat2';
-export { mat3 as Matrix3 } from './mat3';
-export { mat4 as Matrix4 } from './mat4';
-export { quat as Quaternion } from './quat';
+export { Vector2 } from './vector2';
+export { Vector3 } from './vector3';
+export { Vector4 } from './vector4';
+export { Matrix2 } from './matrix2';
+export { Matrix3 } from './matrix3';
+export { Matrix4 } from './matrix4';
+export { Quaternion } from './quaternion';
 
 export { Bounds2 } from './bounds2';
+export { Ray2 } from './ray2';

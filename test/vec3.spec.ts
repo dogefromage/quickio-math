@@ -1,14 +1,14 @@
 import { expect } from 'chai'
 import 'mocha'
 
-import { vec3 } from './../src/vec3'
+import { Vector3 } from './../src/vector3'
 
 import { epsilon } from '../src/constants'
 
 describe('vec3', () => {
 
   it('resets', () => {
-    const vector = new vec3([1.0, 2.0, 3.0])
+    const vector = new Vector3([1.0, 2.0, 3.0])
 
     vector.reset()
 
@@ -18,7 +18,7 @@ describe('vec3', () => {
   })
 
   it('copies', () => {
-    const vector1 = new vec3([1.0, 2.0, 3.0])
+    const vector1 = new Vector3([1.0, 2.0, 3.0])
     const vector2 = vector1.copy()
 
     expect(vector2.x).to.equal(vector1.x)
@@ -27,7 +27,7 @@ describe('vec3', () => {
   })
 
   it('negates', () => {
-    const vector = new vec3([1.0, 2.0, 3.0])
+    const vector = new Vector3([1.0, 2.0, 3.0])
 
     vector.negate()
 
@@ -37,17 +37,17 @@ describe('vec3', () => {
   })
 
   it('compares', () => {
-    const vector1 = new vec3([1.0, 2.0, 3.0])
-    const vector2 = new vec3([1.0, 2.0, 3.0])
-    const vector3 = new vec3([2.0, 3.0, 4.0])
+    const vector1 = new Vector3([1.0, 2.0, 3.0])
+    const vector2 = new Vector3([1.0, 2.0, 3.0])
+    const vector3 = new Vector3([2.0, 3.0, 4.0])
 
     expect(vector1.equals(vector2)).to.equal(true)
     expect(vector1.equals(vector3)).to.equal(false)
   })
 
   it('adds', () => {
-    const vector1 = new vec3([1.0, 2.0, 3.0])
-    const vector2 = new vec3([2.0, 3.0, 4.0])
+    const vector1 = new Vector3([1.0, 2.0, 3.0])
+    const vector2 = new Vector3([2.0, 3.0, 4.0])
 
     const result = vector1.add(vector2)
 
@@ -57,8 +57,8 @@ describe('vec3', () => {
   })
 
   it('subtracts', () => {
-    const vector1 = new vec3([1.0, 2.0, 3.0])
-    const vector2 = new vec3([2.0, 4.0, 6.0])
+    const vector1 = new Vector3([1.0, 2.0, 3.0])
+    const vector2 = new Vector3([2.0, 4.0, 6.0])
 
     const result = vector1.subtract(vector2)
 
@@ -68,8 +68,8 @@ describe('vec3', () => {
   })
 
   it('multiplies', () => {
-    const vector1 = new vec3([2.0, 3.0, 4.0])
-    const vector2 = new vec3([5.0, 6.0, 7.0])
+    const vector1 = new Vector3([2.0, 3.0, 4.0])
+    const vector2 = new Vector3([5.0, 6.0, 7.0])
 
     const result = vector1.multiply(vector2)
 
@@ -79,8 +79,8 @@ describe('vec3', () => {
   })
 
   it('divides', () => {
-    const vector1 = new vec3([2.0, 3.0, 0.8])
-    const vector2 = new vec3([5.0, 6.0, 4.0])
+    const vector1 = new Vector3([2.0, 3.0, 0.8])
+    const vector2 = new Vector3([5.0, 6.0, 4.0])
 
     const result = vector1.divide(vector2)
 
@@ -90,7 +90,7 @@ describe('vec3', () => {
   })
 
   it('scales', () => {
-    const vector = new vec3([1.0, 2.0, 3.0])
+    const vector = new Vector3([1.0, 2.0, 3.0])
 
     vector.scale(2.0)
 
@@ -100,7 +100,7 @@ describe('vec3', () => {
   })
 
   it('normalizes', () => {
-    const vector = new vec3([1.0, 2.0, 3.0])
+    const vector = new Vector3([1.0, 2.0, 3.0])
 
     vector.normalize()
 

@@ -1,11 +1,11 @@
 import { Ray2 } from "./ray2";
-import { vec2 } from "./vec2";
+import { Vector2 } from "./vector2";
 
 export class Bounds2
 {
     constructor(
-        public min: vec2,
-        public max: vec2,
+        public min: Vector2,
+        public max: Vector2,
         fixOrder = false
     )
     {
@@ -71,7 +71,7 @@ export class Bounds2
         return true; 
     }
 
-    containsPoint(point: vec2)
+    containsPoint(point: Vector2)
     {
         return (this.min.x <= point.x && point.x <= this.max.x &&
                 this.min.y <= point.y && point.y <= this.max.y);
