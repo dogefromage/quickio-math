@@ -152,10 +152,20 @@ export class vec4 {
         this.values[3] = values[3]
     }
 
-    constructor(values?: [number, number, number, number]) {
-        if (values !== undefined) {
-            this.xyzw = values
+    constructor(values?: [ number, number, number, number ]);
+    constructor(...values: number[]);
+
+    constructor(...args: any[])
+    {
+        if (typeof(args[0]) === 'object')
+        {
+            args = args[0];
         }
+
+        this.values[0] = args[0] || 0;
+        this.values[1] = args[1] || 0;
+        this.values[2] = args[2] || 0;
+        this.values[3] = args[3] || 0;
     }
 
     private values = new Float32Array(4)

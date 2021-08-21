@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import 'mocha'
 
-import vec3 from './../src/vec3'
+import { vec3 } from './../src/vec3'
 
 import { epsilon } from '../src/constants'
 

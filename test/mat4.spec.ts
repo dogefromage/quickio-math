@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import 'mocha'
 
-import mat4 from '../src/mat4'
+import { mat4 } from '../src/mat4'
 
 import { epsilon } from '../src/constants'
 

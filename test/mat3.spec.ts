@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import 'mocha'
 
-import mat3 from '../src/mat3'
+import { mat3 } from '../src/mat3'
 
 describe('mat3', () => {
 

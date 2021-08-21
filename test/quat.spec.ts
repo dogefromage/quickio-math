@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import 'mocha'
 
-import quat from './../src/quat'
+import { quat } from './../src/quat'
 
 import { epsilon } from '../src/constants'
 

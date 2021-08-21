@@ -34,11 +34,25 @@ export class vec2 {
         this.values[1] = values[1]
     }
 
-    constructor(values?: [number, number]) {
-        if (values !== undefined) {
-            this.xy = values
+    constructor(values?: [ number, number ]);
+    constructor(...values: number[]);
+
+    constructor(...args: any[])
+    {
+        if (typeof(args[0]) === 'object')
+        {
+            args = args[0];
         }
+
+        this.values[0] = args[0] || 0;
+        this.values[1] = args[1] || 0;
     }
+
+    // constructor(values?: [number, number]) {
+    //     if (values !== undefined) {
+    //         this.xy = values
+    //     }
+    // }
 
     private values = new Float32Array(2)
 

@@ -55,10 +55,19 @@ export class vec3 {
         this.values[2] = values[2]
     }
 
-    constructor(values?: [number, number, number]) {
-        if (values !== undefined) {
-            this.xyz = values
+    constructor(values?: [ number, number, number ]);
+    constructor(...values: number[]);
+
+    constructor(...args: any[])
+    {
+        if (typeof(args[0]) === 'object')
+        {
+            args = args[0];
         }
+
+        this.values[0] = args[0] || 0;
+        this.values[1] = args[1] || 0;
+        this.values[2] = args[2] || 0;
     }
 
     private values = new Float32Array(3)
