@@ -88,7 +88,10 @@ export class quat {
 
     private values = new Float32Array(4)
 
-    static readonly identity = new quat().setIdentity()
+    static get identity()
+    {
+        return new quat().setIdentity();
+    }
 
     at(index: number): number {
         return this.values[index]

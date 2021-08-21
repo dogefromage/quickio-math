@@ -37,4 +37,12 @@ export class Ray2
 
         return Math.acos(dot);
     }
+
+    copy()
+    {
+        return new Ray2(
+            this.origin.copy(),
+            this.direction.copy()
+        );
+    }
 }

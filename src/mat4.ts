@@ -14,7 +14,10 @@ export class mat4 {
 
     private values = new Float32Array(16)
 
-    static readonly identity = new mat4().setIdentity()
+    static get identity()
+    {
+        return new mat4().setIdentity();
+    }
 
     at(index: number): number {
         return this.values[index]

@@ -76,4 +76,12 @@ export class Bounds2
         return (this.min.x <= point.x && point.x <= this.max.x &&
                 this.min.y <= point.y && point.y <= this.max.y);
     }
+
+    copy()
+    {
+        return new Bounds2(
+            this.min.copy(),
+            this.max.copy()
+        );
+    }
 }
