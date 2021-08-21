@@ -7,3 +7,5 @@ export { mat2 as Matrix2 } from './mat2';
 export { mat3 as Matrix3 } from './mat3';
 export { mat4 as Matrix4 } from './mat4';
 export { quat as Quaternion } from './quat';
+
+export { Bounds2 } from './bounds2';

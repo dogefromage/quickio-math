@@ -72,8 +72,15 @@ export class vec3 {
 
     private values = new Float32Array(3)
 
-    static readonly zero = new vec3([0, 0, 0])
-    static readonly one = new vec3([1, 1, 1])
+    static get zero()
+    {
+        return new vec3(0, 0, 0);
+    }
+
+    static get one()
+    {
+        return new vec3(1, 1, 1)
+    }
 
     static readonly up = new vec3([0, 1, 0])
     static readonly right = new vec3([1, 0, 0])
@@ -81,6 +88,11 @@ export class vec3 {
 
     at(index: number): number {
         return this.values[index]
+    }
+
+    set(index: number, value: number)
+    {
+        this.values[index] = value;
     }
 
     reset(): void {

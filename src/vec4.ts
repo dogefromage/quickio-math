@@ -170,11 +170,23 @@ export class vec4 {
 
     private values = new Float32Array(4)
 
-    static readonly zero = new vec4([0, 0, 0, 1])
-    static readonly one = new vec4([1, 1, 1, 1])
+    static get zero()
+    {
+        return new vec4(0, 0, 0, 0);
+    }
+
+    static get one()
+    {
+        return new vec4(1, 1, 1, 1)
+    }
 
     at(index: number): number {
         return this.values[index]
+    }
+
+    set(index: number, value: number)
+    {
+        this.values[index] = value;
     }
 
     reset(): void {

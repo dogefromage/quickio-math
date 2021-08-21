@@ -56,11 +56,23 @@ export class vec2 {
 
     private values = new Float32Array(2)
 
-    static readonly zero = new vec2([0, 0])
-    static readonly one = new vec2([1, 1])
+    static get zero()
+    {
+        return new vec2(0, 0);
+    }
+
+    static get one()
+    {
+        return new vec2(1, 1);
+    }
 
     at(index: number): number {
         return this.values[index]
+    }
+
+    set(index: number, value: number)
+    {
+        this.values[index] = value;
     }
 
     reset(): void {
